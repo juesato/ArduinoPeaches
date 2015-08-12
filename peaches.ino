@@ -41,7 +41,7 @@ void readRetrigger() {
 
 
 void peachRead(int number, int reading, int midiNote, int midiChannel){
-  Serial.println(reading);
+  //Serial.println(reading);
   if(number == 3) {
     if(reading > floorThreshold ) {
        buttonStates[number] = 1;
@@ -52,7 +52,7 @@ void peachRead(int number, int reading, int midiNote, int midiChannel){
 //    Serial.print("threshold ");
 //    Serial.println(threshold);
     if(reading > threshold ) {
-      Serial.println("HELLO");
+      //Serial.println("HELLO");
        buttonStates[number] = 1;
     }  else {
        buttonStates[number] = 0;
@@ -61,16 +61,18 @@ void peachRead(int number, int reading, int midiNote, int midiChannel){
   
   if (buttonStates[number] != buttonLastStates[number]){
    if ((millis() - lastDebounceTimes[number]) < retriggerDelay && buttonStates[number] == 1) {
-     Serial.println("debounce");
      return;
    }
    if(buttonStates[number] == 1) {
-     Serial.println("ONE");
+     Serial.print("play");
+     Serial.println(number);
 //     MIDI.sendNoteOn(midiNote,127,midiChannel);
     digitalWrite(13, HIGH);
      digitalWrite(6,LOW);
    } else {
 //     MIDI.sendNoteOff(midiNote,0,midiChannel);
+    Serial.print("stop");
+    Serial.println(number);
     digitalWrite(13, LOW);
      digitalWrite(6,HIGH);
      lastDebounceTimes[number] = millis();
